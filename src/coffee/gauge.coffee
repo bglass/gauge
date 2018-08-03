@@ -1,10 +1,10 @@
+import '../css/gauge.css'
+
 {merge}         = require './helpers.coffee'
 {Scale}         = require './scale.coffee'
 {SVG}           = require './svg.coffee'
 {settings}      = require './presets.coffee'
 {events}        = require './event.coffee'
-
-
 
 
 exports.Gauge = class Gauge

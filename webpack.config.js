@@ -1,12 +1,13 @@
 const path = require('path');
 
 module.exports = {
-  entry: [ './src/js/entry.js',
-           './demo/css/main.css'
+  entry: [ './src/coffee/gauge.coffee'
          ],
   output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: 'glass-gauge.js',
+    path: path.resolve(__dirname, 'dist'),
+    libraryTarget: 'var',
+    library: 'glass'
   },
 
   module: {
@@ -36,10 +37,6 @@ module.exports = {
           loader: 'expose-loader',
           options: '$'
         }]
-      },
-      { test: /\.svg$/,
-        include: path.resolve(__dirname, 'src/svg'),
-        loader: 'svg-inline-loader?classPrefix'
       }
     ]
   }
