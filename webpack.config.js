@@ -31,13 +31,14 @@ module.exports = {
         use: { loader: 'pug-loader',
                 query: {} // Can be empty
         }
-      },
-      { test: require.resolve('jquery'),
-        use: [{
-          loader: 'expose-loader',
-          options: '$'
-        }]
       }
+      // ,
+      // { test: require.resolve('jquery'),
+      //   use: [{
+      //     loader: 'expose-loader',
+      //     options: '$'
+      //   }]
+      // }
     ]
   }
 

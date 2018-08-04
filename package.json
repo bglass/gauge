@@ -1,18 +1,18 @@
 {
-  "name": "webpack-template",
-  "version": "1.0.0",
-  "description": "",
-  "private": true,
+  "name": "glass-gauge",
+  "version": "0.1.0",
+  "description": "Gauge widget based on arbitrary SVG path defintion",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node_modules/.bin/webpack",
     "dev": "webpack-dev-server"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "gauge"
+  ],
+  "author": "Glass",
+  "license": "GPL3",
   "dependencies": {
-    "lodash": "^4.17.10",
     "webpack": "^4.16.1",
     "webpack-cli": "^3.1.0"
   },
@@ -21,12 +21,9 @@
     "coffeescript": "^2.3.1",
     "css-loader": "^1.0.0",
     "expose-loader": "^0.7.5",
-    "jquery": "^3.3.1",
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
     "style-loader": "^0.21.0",
-    "svg-inline-loader": "^0.8.0",
-    "ts-loader": "^4.4.2",
     "webpack-dev-server": "^3.1.5"
   }
 }

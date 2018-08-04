@@ -42,6 +42,8 @@ class Bar extends Indicator
   draw_elements: (data) ->
     bar  = @draw_bar(data)
 
+    console.log "using jquery?"
+
     defs = @create_marker_defs(data)
     {
       bar:    bar
