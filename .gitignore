@@ -36,4 +36,3 @@
 yarn-debug.log*
 .yarn-integrity
 /dist/main.js
-/dist/glass-gauge.js
