@@ -1,6 +1,6 @@
 {
   "name": "glass-gauge",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "./dist/glass-gauge.js",
   "browser": "./dist/glass-gauge.js",
   "description": "Gauge widget based on arbitrary SVG path defintion",
