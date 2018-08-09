@@ -85,3 +85,9 @@ exports.Gauge = class Gauge
   setRelative: (qty_id, r) ->
     for scale_id, scale of @elements.scales
       scale.setRelative qty_id, r
+
+  @show: (id) ->
+    @store[id].style.visibility = "visible";
+
+  @hide: (id) ->
+    @store[id].style.visibility = "hidden";
