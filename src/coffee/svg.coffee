@@ -206,7 +206,7 @@ class Path extends SVG
     r  = data.w*.4
     mx = data.w*.5;       my = data.h*.5
     sx = mx-r;            sy = my
-    "M #{sx} #{sy} a #{r} #{r} 0 0 1 #{r} #{-r}"
+    "M #{sx} #{sy} a #{r} #{r} 0 0 1 #{2*r} #{0}"
 
 
   @circular_arc: (data) ->
