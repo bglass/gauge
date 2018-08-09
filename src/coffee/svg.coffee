@@ -19,6 +19,10 @@ exports.SVG = class SVG
 
   ns = "http://www.w3.org/2000/svg"
 
+  visibility: (value) ->
+    @node.style.visibility = value;
+
+
   add_element: (id, type, attributes) ->
     tag = @new_tag id, type, attributes
     if id?.length
