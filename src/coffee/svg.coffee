@@ -203,7 +203,7 @@ class Path extends SVG
     "M #{x} #{y1} V #{y0}"
 
   @semi_arc: (data) ->
-    r  = data.w*.4
+    r  = data.w*.3
     mx = data.w*.5;       my = data.h*.5
     sx = mx-r;            sy = my
     "M #{sx} #{sy} a #{r} #{r} 0 0 1 #{2*r} #{0}"
