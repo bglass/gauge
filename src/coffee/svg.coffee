@@ -128,6 +128,8 @@ exports.SVG = class SVG
   addClass:    (name) -> addClass    @node, name
   removeClass: (name) -> removeClass @node, name
 
+  findById: (id) ->
+    @node.getElementById id
 
 
 # =============================================================================

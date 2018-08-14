@@ -2,7 +2,6 @@
 {settings}      = require './presets.coffee'
 
 # ============================================================
-
 exports.Indicator = class Indicator
 
   @create: (config, data) ->
@@ -42,13 +41,13 @@ class Bar extends Indicator
   draw_elements: (data) ->
     bar  = @draw_bar(data)
 
-    console.log "using jquery?"
-
     defs = @create_marker_defs(data)
     {
       bar:    bar
-      under:  $("svg").find("#underflow"+@id)[0]
-      over:   $("svg").find("#overflow"+@id)[0]
+      under:    data.svg.find "underflow"+@id
+      over:     data.svg.find "overflow"+@id
+      # under:  $("svg").find("#underflow"+@id)[0]
+      # over:   $("svg").find("#overflow"+@id)[0]
     }
 
   create_marker_defs: (data) ->
@@ -131,7 +130,8 @@ class Color extends Indicator
     # nothing
 
   update: (data) ->
-    $("#"+@config.target)[0].setAttribute(
+    element = document.getElementById @config.target
+    element.setAttribute(
       @config.attribute,
       "hsl(#{200*(1-data.rl)}, 80%, 50%)"
     )
