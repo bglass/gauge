@@ -22,7 +22,6 @@ exports.events = (gauge, svg) ->
   drag = (evt) =>
     if dragging
       evt.preventDefault()
-      # console.log gauge.id
       rl0     = gauge.getRelativeLimited quantity
       coords  = getMousePosition evt
       t       = path.project rl0, coords

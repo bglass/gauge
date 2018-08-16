@@ -147,7 +147,14 @@ exports.Scale = class Scale
 
   setValue: (data, update) ->
     for qty, value of update
-      @elements.quantities[qty].setValue @refine(data), value
+      if value?
+        if @elements.quantities[qty]
+          @elements.quantities[qty].setValue @refine(data), value
+        else
+          console.error "Undefined Quantity id: " + qty
+      else
+        console.error "Gauge refuses to set quantity '#{qty}' to undefined."
+
 
   setRelative: (qty_id, r) ->
     @elements.quantities[qty_id].setRelative (@refine {}), r
@@ -161,5 +168,10 @@ exports.Scale = class Scale
 
   getRelative: (qty_id) ->
     @elements.quantities[qty_id].relative_value(@refine {})
+
+  indicator_visibility: (id, visibility) ->
+    for qty_id, qty of @elements.quantities
+      qty.indicator_visibility id, visibility
+
 
 # ============================================================

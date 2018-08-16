@@ -16,7 +16,9 @@ exports.Quantity = class Quantity
     @config = settings("quantity", config)
     @value = @config.value
 
-    @indicators = Indicator.create @config.indicator, @refine data,
+    @elements = {
+      indicators:  Indicator.create @config.indicator, @refine data
+    }
 
   refine: (data) ->
     merge data,
@@ -39,11 +41,24 @@ exports.Quantity = class Quantity
     else
       return r
 
+  expired = (timestamp) ->
+    return (Date.now() - timestamp > 10*60*1000)
 
-  setValue: (data, value) ->
+  setValue: (data, update) ->
+
+    if (typeof update == 'number')
+      value   = update
+    else if (typeof update == 'object')
+      value       = update.value
+      @timestamp  = update.timestamp
+
     @value = parseFloat(value)
-    for indicator in @indicators
+
+    for iid, indicator of @elements.indicators
       indicator.update(@refine data)
+
+      if @timestamp?
+        indicator.set_expired expired(@timestamp)
 
   setRelative: (data, r) ->
     v0 = data.v0 * @config.scale_factor
@@ -58,7 +73,7 @@ exports.Quantity = class Quantity
             va - @config.stepIncrement
 
     vc = vb
-    
+
     if data.cyclic
       if vb > data.v1
         vc = vb - (data.v1-data.v0)
@@ -66,3 +81,7 @@ exports.Quantity = class Quantity
         vc = vb + (data.v1-data.v0)
 
     @setValue(data, vc)
+
+  indicator_visibility: (id, visibility) ->
+    if @elements.indicators[id]
+      @elements.indicators[id].set_visibility visibility

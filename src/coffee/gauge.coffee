@@ -1,11 +1,10 @@
-import '../css/gauge.css'
+# import '../css/gauge.css'
 
 {merge}         = require './helpers.coffee'
 {Scale}         = require './scale.coffee'
 {SVG}           = require './svg.coffee'
 {settings}      = require './presets.coffee'
 {events}        = require './event.coffee'
-
 
 exports.Gauge = class Gauge
 
@@ -21,8 +20,6 @@ exports.Gauge = class Gauge
     Gauge.store[@id] = @
 
     @config = settings("gauge", config)
-
-
 
     @svg = SVG.add_svg @id, [0, 0, @config.width, @config.height]
     events(@, @svg)
@@ -57,7 +54,10 @@ exports.Gauge = class Gauge
 
   @setValue: (updates) ->
     for id, update of updates
-      @store[id].setValue update
+      if @store[id]
+        @store[id].setValue update
+      else
+        console.error "Undefined Gauge id: " + id
 
   setValue: (update) ->
     for scale_id, scale of @elements.scales
@@ -87,7 +87,17 @@ exports.Gauge = class Gauge
       scale.setRelative qty_id, r
 
   @show: (id) ->
-    @store[id].svg.visibility "visible";
+    @store[id].svg.visibility "visible"
 
   @hide: (id) ->
-    @store[id].svg.visibility "hidden";
+    @store[id].svg.visibility "hidden"
+
+  @show_indicator: (gid, id) ->
+    @store[gid].indicator_visibility id, "visible"
+
+  @hide_indicator: (gid, id) ->
+    @store[gid].indicator_visibility id, "hidden"
+
+  indicator_visibility: (id, visibility) ->
+    for scale_id, scale of @elements.scales
+      scale.indicator_visibility id, visibility

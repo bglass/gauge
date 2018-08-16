@@ -6,23 +6,28 @@ exports.Indicator = class Indicator
 
   @create: (config, data) ->
 
-    indicators = []
+    indicator = {}
     for ptr_id, cfg of config
       switch cfg.type
         when "bar"
-          indicators.push (new Bar(     ptr_id, cfg, data))
+          indicator[ptr_id] = new Bar(  ptr_id, cfg, data)
         when "digital"
-          indicators.push (new Digital( ptr_id, cfg, data))
+          indicator[ptr_id] = new Digital( ptr_id, cfg, data)
         when "pointer"
-          indicators.push (new Pointer(  ptr_id, cfg, data))
+          indicator[ptr_id] = new Pointer(  ptr_id, cfg, data)
         when "color"
-          indicators.push (new Color(    ptr_id, cfg, data))
+          indicator[ptr_id] = new Color(    ptr_id, cfg, data)
         else
-          console.log "indicator type '#{cfg.type}' isn't implemented, yet."
-    return indicators
+    return indicator
 
   constructor: (@id, config) ->
     @config = settings("indicator", config)
+
+  set_visibility: (vis) ->
+    console.error "Indicator visibility: method undefined"
+
+  set_expired: (expired) ->
+    @indicator.opacity( if expired then 0.15 else 1.0 )
 
 
 # ============================================================
@@ -32,6 +37,7 @@ class Bar extends Indicator
   constructor: (id, config, data) ->
     super id, config
     @elements = @draw_elements(data)
+    @indicator = @elements.bar
     @update(data)
 
   update: (data) ->
@@ -40,14 +46,11 @@ class Bar extends Indicator
 
   draw_elements: (data) ->
     bar  = @draw_bar(data)
-
     defs = @create_marker_defs(data)
     {
-      bar:    bar
-      under:    data.svg.find "underflow"+@id
-      over:     data.svg.find "overflow"+@id
-      # under:  $("svg").find("#underflow"+@id)[0]
-      # over:   $("svg").find("#overflow"+@id)[0]
+      bar:      bar
+      under:    data.svg.findById "underflow"+@id
+      over:     data.svg.findById "overflow"+@id
     }
 
   create_marker_defs: (data) ->
@@ -126,6 +129,9 @@ class Bar extends Indicator
 
 class Color extends Indicator
 
+  set_expired: (expired) ->
+    # do nothing
+
   draw: (data)->
     # nothing
 
@@ -150,7 +156,12 @@ class Pointer extends Indicator
 
   constructor: (id, config, data) ->
     super id, config
-    @draw data
+    @indicator = @draw data
+
+
+  set_visibility: (vis) ->
+    @group.visibility vis
+
 
   draw: (data) ->
 
@@ -185,13 +196,15 @@ class Pointer extends Indicator
           if @config.draggable
             @poly.make_draggable data.path.id, data.qId
         else
-          console.log "Missing Pointer Shape", @id, @config
+          console.error "Missing Pointer Shape", @id, @config
 
 
     @motion = @group.follow_path(data.path)
 
     @previous_rl = 0
     @update data
+
+    return @group
 
   template =
     right:    [ 0,0,  5, 10,  -5, 10]
@@ -235,18 +248,13 @@ class Pointer extends Indicator
     @previous_rl = data.rl
 
 
-
-
-
-
-
 ## ============================================================
 
 class Digital extends Indicator
 
   constructor: (id, config, data) ->
     super id, config
-    @draw data
+    @indicator = @draw data
 
   draw: (data) ->
     @display = data.svg.add_text @id, "",
@@ -258,6 +266,7 @@ class Digital extends Indicator
       x:                    data.w
       y:                    data.h * .8
     @update data
+    return @display
 
   update:  (data) ->
     @display.setText @number_unit(data)

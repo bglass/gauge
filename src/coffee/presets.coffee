@@ -43,6 +43,7 @@ defaults =
     decimals:   1
     invert:  false          # switch opaque/transparent parts of bar
     out_of_range: true
+    offset:   0
 
 
 

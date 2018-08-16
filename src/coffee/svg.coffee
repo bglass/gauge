@@ -131,6 +131,9 @@ exports.SVG = class SVG
   findById: (id) ->
     @node.getElementById id
 
+  opacity: (alpha) ->
+    @node.setAttribute "opacity", alpha
+
 
 # =============================================================================
 
