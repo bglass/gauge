@@ -6,7 +6,7 @@
 {settings}      = require './presets.coffee'
 {events}        = require './event.coffee'
 
-exports.Gauge = class Gauge
+module.exports.Gauge = exports.Gauge = class Gauge
 
   @store = {}
 
